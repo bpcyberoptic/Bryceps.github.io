@@ -78,25 +78,26 @@
       padding: clamp(16px, 4vw, 28px) 12px;
     }
     header h1 {
-      margin: .2rem 0 .4rem;
-      font-weight: 800;
-      font-size: clamp(1.4rem, 4.8vw, 2.4rem);
+      margin: .2rem auto .4rem;
+      font-weight: 600;
+      font-size: clamp(1.6rem, 4.8vw, 2.6rem);
+      text-align: center;
+      display: inline-block;
       white-space: nowrap;
       overflow: hidden;
-      width: 0;
       border-right: 2px solid rgba(0,0,0,.35);
-      animation: typing 2.2s steps(28, end) forwards, caret .8s step-end infinite;
+      /* typing only on larger screens; overridden below on mobile */
+      animation: typing 3s steps(30, end) forwards, caret .8s step-end infinite;
     }
     header p { margin: 0; opacity: .85; font-size: .95rem; }
-    @keyframes typing { from { width: 0 } to { width: 22ch } }
+    @keyframes typing { from { width: 0 } to { width: 100% } }
     @keyframes caret { 50% { border-color: transparent } }
 
     /* On small screens, don’t clip the header */
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
       header h1 {
         animation: none;
-        border-right: 0;
-        width: auto;
+        border-right: none;
         white-space: normal;
       }
     }
