@@ -1,51 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Brycep's </title>
+  <title>My GitHub Page</title>
+
+  <!-- Let browsers know we support light & dark -->
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#4CAF50" />
+
   <style>
+    /* ---------- THEME TOKENS ---------- */
     :root {
       --bg1: #f4f4f9;
+      --bg-grad-a: #eef3ff;
+      --bg-grad-b: #f9faff;
+      --bg-grad-c: #eef9f4;
       --card: #ffffff;
-      --text: #333;
+      --text: #1f2937;
+      --muted: #4b5563;
       --brand: #4CAF50;
-      --nav: #333;
+      --nav: #333333;
       --nav-hover: #575757;
       --shadow: 0 2px 5px rgba(0,0,0,0.1);
       --shadow-lg: 0 8px 20px rgba(0,0,0,0.18);
       --radius: 12px;
       --ease: cubic-bezier(.2,.8,.2,1);
     }
-    /*Subtle Shadow*/
-     body {
+
+    /* Dark theme overrides */
+    html[data-theme="dark"] {
+      --bg1: #0f172a;                /* slate-900-ish */
+      --bg-grad-a: #0b1225;
+      --bg-grad-b: #0f1a33;
+      --bg-grad-c: #0e1b2a;
+      --card: #121826;               /* slightly lifted */
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --brand: #22c55e;              /* greener pop */
+      --nav: #0b1220;
+      --nav-hover: #1f2937;
+      --shadow: 0 2px 6px rgba(0,0,0,0.45);
+      --shadow-lg: 0 10px 28px rgba(0,0,0,0.55);
+    }
+
+    /* ---------- BASE & LAYOUT ---------- */
+    * { box-sizing: border-box; }
+    body {
       margin: 0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color: var(--text);
       line-height: 1.6;
-      background: linear-gradient(-45deg, var(--bg1), #eef3ff, #f9faff, #eef9f4);
+      background: linear-gradient(-45deg, var(--bg1), var(--bg-grad-a), var(--bg-grad-b), var(--bg-grad-c));
       background-size: 400% 400%;
       animation: bgShift 18s ease infinite;
+      transition: background-color .25s var(--ease), color .25s var(--ease);
     }
     @keyframes bgShift {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
+
     header {
       background: var(--brand);
       color: white;
       padding: 28px 12px;
       text-align: center;
     }
+
     nav {
       background: var(--nav);
       display: flex;
       justify-content: center;
+      align-items: center;
       gap: 6px;
       position: sticky;
       top: 0;
       z-index: 10;
+      padding-inline: 8px;
     }
     nav a {
       color: white;
@@ -59,32 +92,50 @@
       border-radius: 8px;
     }
     nav a:hover { background: var(--nav-hover); transform: translateY(-1px); opacity: 1; }
+
+    /* Toggle sits at the right side */
+    .nav-spacer { flex: 1; }
+    .toggle-wrap {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+    }
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 0;
+      background: transparent;
+      color: white;
+      padding: 10px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color .2s var(--ease), transform .2s var(--ease);
+    }
+    .theme-toggle:hover { background: var(--nav-hover); transform: translateY(-1px); }
+    .theme-toggle:focus-visible { outline: 2px solid white; outline-offset: 2px; border-radius: 12px; }
+
     .content {
       max-width: 900px;
       margin: 24px auto 96px;
       padding: 0 12px;
     }
-    /* Rounded cards with hover lift */
+
     section {
       background: var(--card);
       margin: 20px 0;
       padding: 22px;
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      transition: transform .25s var(--ease), box-shadow .25s var(--ease), opacity .6s var(--ease), filter .6s var(--ease);
-      /* start hidden for scroll-fade-in */
+      transition: transform .25s var(--ease), box-shadow .25s var(--ease),
+                  opacity .6s var(--ease), filter .6s var(--ease), background-color .25s var(--ease);
       opacity: 0;
       transform: translateY(18px);
       filter: blur(2px);
     }
     section:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-    /* visible state toggled by JS */
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-    }
-    /* Typing effect on the main title (progressively enhanced) */
+    section.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+
     h1 {
       border-right: 2px solid rgba(255,255,255,.9);
       white-space: nowrap;
@@ -96,6 +147,7 @@
     }
     @keyframes typing { from { width: 0 } to { width: 22ch } }
     @keyframes caret { 50% { border-color: transparent } }
+
     footer {
       background: var(--nav);
       color: white;
@@ -105,7 +157,8 @@
       bottom: 0;
       width: 100%;
     }
-    /* Respect users who prefer reduced motion */
+
+    /* Reduced motion support */
     @media (prefers-reduced-motion: reduce) {
       * { animation: none !important; transition: none !important; }
       section { opacity: 1; transform: none; filter: none; }
@@ -124,31 +177,50 @@
     <a href="#about">About</a>
     <a href="#projects">Projects</a>
     <a href="#contact">Contact</a>
+    <span class="nav-spacer"></span>
+    <div class="toggle-wrap">
+      <!-- Accessible toggle with inline SVG icons -->
+      <button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false" title="Toggle dark mode">
+        <svg id="iconSun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/>
+        </svg>
+        <svg id="iconMoon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+        </svg>
+        <span id="toggleLabel">Dark</span>
+      </button>
+    </div>
   </nav>
 
   <main class="content">
     <section id="home">
       <h2>Home</h2>
-      <p>This is just the start. We'll be adding much more as we go.</p>
+      <p>This is a simple template you can use to create your personal site.</p>
     </section>
+
     <section id="about">
       <h2>About</h2>
-      <p>The name's Bryce. I've been slowly working on my coding/development skills with great ambitions for a change in my life. I want to understnad how computers work and hopefully create my own home server at some point.</p>
+      <p>Write something about yourself here. Maybe your background, hobbies, or interests.</p>
     </section>
+
     <section id="projects">
       <h2>Projects</h2>
-      <p>Showcase your projects, portfolios, or work experience. This is where I will be updating with awards, qualifications, certificates, and  resume.</p>
+      <p>Showcase your projects, portfolios, or work experience.</p>
     </section>
+
     <section id="contact">
       <h2>Contact</h2>
-      <p>Add your email, GitHub link, or social media handles here. (Again eMail will be updated here)</p>
+      <p>Add your email, GitHub link, or social media handles here.</p>
     </section>
   </main>
+
   <footer>
     <p>© 2025 My GitHub Page</p>
   </footer>
-  <!-- Scroll fade-in (works on GitHub Pages) -->
+
   <script>
+    // ---- Scroll fade-in (unchanged) ----
     (function () {
       const sections = document.querySelectorAll("section");
       if ("IntersectionObserver" in window) {
@@ -162,10 +234,13 @@
         }, { threshold: 0.12 });
         sections.forEach(s => obs.observe(s));
       } else {
-        // Fallback: just show them
         sections.forEach(s => s.classList.add("visible"));
       }
     })();
-  </script>
-</body>
-</html>
+
+    // ---- Theme init & toggle ----
+    (function () {
+      const root = document.documentElement;
+      const btn = document.getElementById("themeToggle");
+      const iconSun = document.getElementById("iconSun");
+      const
