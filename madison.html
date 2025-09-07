@@ -2,9 +2,10 @@
 <html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Madison | My GitHub Page</title>
-  <meta name="color-scheme" content="light dark">
+
+  <meta name="color-scheme" content="light dark" />
   <meta name="theme-color" content="#4CAF50" />
 
   <style>
@@ -14,33 +15,45 @@
       --bg-grad-a: #eef3ff;
       --bg-grad-b: #f9faff;
       --bg-grad-c: #eef9f4;
+
       --card: #ffffff;
       --text: #1f2937;
       --muted: #4b5563;
+
+      /* header gradient (mint → mint) */
       --brand: linear-gradient(to top right, #9CFFD4, #9CFFA3);
-      --nav: #333333;
-      --nav-hover: #575757;
+
+      --nav: #111827;       /* near-black for contrast */
+      --nav-hover: #1f2937;
+
       --shadow: 0 2px 5px rgba(0,0,0,0.1);
       --shadow-lg: 0 8px 20px rgba(0,0,0,0.18);
+
       --radius: 12px;
       --ease: cubic-bezier(.2,.8,.2,1);
     }
 
+    /* Dark theme (restored look) */
     html[data-theme="dark"] {
       --bg1: #0f172a;
       --bg-grad-a: #0b1225;
       --bg-grad-b: #0f1a33;
       --bg-grad-c: #0e1b2a;
+
       --card: #121826;
       --text: #e5e7eb;
       --muted: #94a3b8;
+
       --brand: linear-gradient(to top right, #9CFFD4, #9CFFA3);
+
       --nav: #0b1220;
       --nav-hover: #1f2937;
+
       --shadow: 0 2px 6px rgba(0,0,0,0.45);
       --shadow-lg: 0 10px 28px rgba(0,0,0,0.55);
     }
 
+    /* ---------- BASE ---------- */
     * { box-sizing: border-box; }
     body {
       margin: 0;
@@ -57,61 +70,113 @@
       100% { background-position: 0% 50%; }
     }
 
+    /* ---------- HEADER ---------- */
     header {
       background: var(--brand);
-      color: #3B393A;
-      padding: 28px 12px;
+      color: #0e1013;
       text-align: center;
+      padding: clamp(16px, 4vw, 28px) 12px;
+    }
+    header h1 {
+      margin: .2rem 0 .4rem;
+      font-weight: 800;
+      font-size: clamp(1.4rem, 4.8vw, 2.4rem);
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      border-right: 2px solid rgba(0,0,0,.35);
+      animation: typing 2.2s steps(28, end) forwards, caret .8s step-end infinite;
+    }
+    header p { margin: 0; opacity: .85; font-size: .95rem; }
+    @keyframes typing { from { width: 0 } to { width: 22ch } }
+    @keyframes caret { 50% { border-color: transparent } }
+
+    /* On small screens, don’t clip the header */
+    @media (max-width: 480px) {
+      header h1 {
+        animation: none;
+        border-right: 0;
+        width: auto;
+        white-space: normal;
+      }
     }
 
+    /* ---------- NAV ---------- */
     nav {
       background: var(--nav);
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      padding-inline: 8px;
-    }
-    nav a {
       color: #fff;
-      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      /* sticky only on desktop (see media queries below) */
+    }
+    .nav-links {
+      display: flex;
+      gap: 6px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links a {
+      color: #fff;
       text-decoration: none;
       text-transform: uppercase;
-      font-size: 0.92rem;
-      transition: transform .2s var(--ease), background-color .2s var(--ease);
+      font-size: .92rem;
+      padding: 10px 14px;
       border-radius: 8px;
+      transition: background-color .2s var(--ease), transform .2s var(--ease);
     }
-    nav a:hover { background: var(--nav-hover); transform: translateY(-1px); }
+    .nav-links a:hover { background: var(--nav-hover); transform: translateY(-1px); }
 
-    .content {
-      max-width: 900px;
-      margin: 24px auto 96px;
-      padding: 0 12px;
+    .nav-spacer { flex: 1; }
+    .toggle-wrap { display: flex; align-items: center; }
+    .theme-toggle {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 0; background: transparent; color: #fff;
+      padding: 10px 12px; border-radius: 10px; cursor: pointer;
+      transition: background-color .2s var(--ease), transform .2s var(--ease);
+    }
+    .theme-toggle:hover { background: var(--nav-hover); transform: translateY(-1px); }
+    .theme-toggle:focus-visible { outline: 2px solid #fff; outline-offset: 2px; border-radius: 12px; }
+
+    /* Make nav sticky only on desktop to avoid “bar following view” on phones */
+    @media (min-width: 769px) {
+      nav { position: sticky; top: 0; z-index: 10; }
+      footer { position: fixed; bottom: 0; left: 0; right: 0; }
+      body { padding-bottom: 56px; } /* room for fixed footer on desktop */
+    }
+    @media (max-width: 768px) {
+      nav { position: static !important; box-shadow: none !important; }
     }
 
+    /* ---------- CONTENT ---------- */
+    .content { max-width: 900px; margin: 24px auto 96px; padding: 0 12px; }
     section {
       background: var(--card);
-      margin: 20px 0;
-      padding: 22px;
+      margin: 16px 0;
+      padding: clamp(14px, 2.8vw, 22px);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       transition: transform .25s var(--ease), box-shadow .25s var(--ease), opacity .6s var(--ease);
-      opacity: 0;
-      transform: translateY(18px);
-      filter: blur(2px);
+      opacity: 0; transform: translateY(14px);
     }
-    section.visible { opacity: 1; transform: translateY(0); filter: none; }
+    section.visible { opacity: 1; transform: translateY(0); }
+    section:hover { box-shadow: var(--shadow-lg); }
 
+    /* ---------- FOOTER ---------- */
     footer {
       background: var(--nav);
-      color: white;
+      color: #fff;
       text-align: center;
       padding: 12px;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
+    }
+
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+      header h1 { border-right: 0; width: auto; }
+      section { opacity: 1; transform: none; }
     }
   </style>
 </head>
@@ -122,11 +187,30 @@
   </header>
 
   <nav>
-    <a href="https://bpcyberoptic.github.io/Bryceps.github.io/home.html">Home</a>
-    <a href="https://bpcyberoptic.github.io/Bryceps.github.io/madison.html/projects.html">Projects</a>
-    <a href="#education">Education</a>
-    <a href="#contact">Contact</a>
-    <a href="#about">About</a>
+    <ul class="nav-links" id="siteNav">
+      <!-- EXACT LINKS YOU REQUESTED -->
+      <li><a href="https://bpcyberoptic.github.io/Bryceps.github.io/home.html">Home</a></li>
+      <li><a href="https://bpcyberoptic.github.io/Bryceps.github.io/madison.html/projects.html">Projects</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+
+    <span class="nav-spacer"></span>
+
+    <!-- Original SVG toggle restored -->
+    <div class="toggle-wrap">
+      <button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false" title="Toggle dark mode">
+        <svg id="iconSun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/>
+        </svg>
+        <svg id="iconMoon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+        </svg>
+        <span id="toggleLabel">Dark</span>
+      </button>
+    </div>
   </nav>
 
   <main class="content">
@@ -137,7 +221,7 @@
 
     <section id="education">
       <h2>Education</h2>
-      <p>Details about education can go here.</p>
+      <p>Details about Madison’s education can go here.</p>
     </section>
 
     <section id="contact">
@@ -153,19 +237,51 @@
   <script>
     // Fade-in on scroll
     (function () {
-      const sections = document.querySelectorAll("section");
-      if ("IntersectionObserver" in window) {
+      const sections = document.querySelectorAll('section');
+      if ('IntersectionObserver' in window) {
         const obs = new IntersectionObserver((entries, o) => {
           entries.forEach(e => {
             if (e.isIntersecting) {
-              e.target.classList.add("visible");
+              e.target.classList.add('visible');
               o.unobserve(e.target);
             }
           });
         }, { threshold: 0.12 });
         sections.forEach(s => obs.observe(s));
       } else {
-        sections.forEach(s => s.classList.add("visible"));
+        sections.forEach(s => s.classList.add('visible'));
+      }
+    })();
+
+    // Theme toggle (original logic)
+    (function () {
+      const root = document.documentElement;
+      const btn = document.getElementById('themeToggle');
+      const iconSun = document.getElementById('iconSun');
+      const iconMoon = document.getElementById('iconMoon');
+      const label = document.getElementById('toggleLabel');
+
+      // saved > system > light
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initial = saved || (prefersDark ? 'dark' : 'light');
+      setTheme(initial);
+
+      btn.addEventListener('click', () => {
+        const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        setTheme(next);
+        localStorage.setItem('theme', next);
+      });
+
+      function setTheme(mode) {
+        root.setAttribute('data-theme', mode);
+        const dark = mode === 'dark';
+        btn.setAttribute('aria-pressed', String(dark));
+        iconSun.style.display = dark ? 'none' : 'inline';
+        iconMoon.style.display = dark ? 'inline' : 'none';
+        label.textContent = dark ? 'Light' : 'Dark';
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', dark ? '#0b1220' : '#4CAF50');
       }
     })();
   </script>
