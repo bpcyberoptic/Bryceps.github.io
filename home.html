@@ -30,14 +30,14 @@
 
     /* Dark theme overrides */
     html[data-theme="dark"] {
-      --bg1: #0f172a;                /* slate-900-ish */
+      --bg1: #0f172a;
       --bg-grad-a: #0b1225;
       --bg-grad-b: #0f1a33;
       --bg-grad-c: #0e1b2a;
-      --card: #121826;               /* slightly lifted */
+      --card: #121826;
       --text: #e5e7eb;
       --muted: #94a3b8;
-      --brand: linear-gradient(to top right, #9CFFD4, #9CFFA3);              /* greener pop */
+      --brand: linear-gradient(to top right, #9CFFD4, #9CFFA3);
       --nav: #0b1220;
       --nav-hover: #1f2937;
       --shadow: 0 2px 6px rgba(0,0,0,0.45);
@@ -136,18 +136,31 @@
     section:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
     section.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
 
+    /* ---------- FIXED: H1 typing & centering ---------- */
     h1 {
-      border-right: 2px solid rgba(255,255,255,.9);
-      white-space: normal;
-      overflow: hidden;
-      width: 0;
-      margin: 0 auto 6px;
-      animation: typing 2.4s steps(28, end) forwards, caret .8s step-end infinite;
-      max-width: 600px;
+      margin: 0.2rem auto 6px;        /* center */
+      font-weight: 700;
+      font-size: clamp(1.6rem, 5vw, 2.6rem);
       text-align: center;
+      display: inline-block;          /* keep caret tight to text */
+      white-space: nowrap;            /* one line on larger screens */
+      overflow: hidden;
+      border-right: 2px solid rgba(0,0,0,.35);
+      animation: typing 3s steps(30, end) forwards, caret .8s step-end infinite;
     }
-    @keyframes typing { from { width: 0 } to { width: 22ch } }
+    /* reveal to full width so long titles don’t clip */
+    @keyframes typing { from { width: 0 } to { width: 100% } }
     @keyframes caret { 50% { border-color: transparent } }
+
+    /* Phones: disable typing & allow wrapping so it's always fully visible */
+    @media (max-width: 600px) {
+      h1 {
+        animation: none;
+        border-right: 0;
+        white-space: normal;   /* can wrap to 2 lines */
+        width: auto;
+      }
+    }
 
     footer {
       background: var(--nav);
@@ -230,10 +243,10 @@
       const sections = document.querySelectorAll("section");
       if ("IntersectionObserver" in window) {
         const obs = new IntersectionObserver((entries, o) => {
-          entries.forEach(e => {
-            if (e.isIntersecting) {
-              e.target.classList.add("visible");
-              o.unobserve(e.target);
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              o.unobserve(entry.target);
             }
           });
         }, { threshold: 0.12 });
