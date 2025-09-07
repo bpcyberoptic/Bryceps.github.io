@@ -90,16 +90,16 @@
 }
 
     header p { margin: 0; opacity: .85; font-size: .95rem; }
-    @keyframes typing { from { width: 0 } to { width: 22ch } }
+    @keyframes typing { from { width: 0 } to { width: 100% } }
     @keyframes caret { 50% { border-color: transparent } }
 
     /* On small screens, don’t clip the header */
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
       header h1 {
         animation: typing 2.2s steps(28, end) forwards, caret .8s step-end infinite;
         border-right: 2px solid rgba(0,0,0,.35);
         width: auto;
-        white-space: nowrap;
+        white-space: normal;
       }
     }
 
