@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
@@ -73,22 +73,22 @@
     /* ---------- HEADER ---------- */
     header {
       background: var(--brand);
-      color: #0e1013;
+      color: #3B393A;
       text-align: center;
       padding: clamp(16px, 4vw, 28px) 12px;
     }
     header h1 {
       margin: .2rem auto .4rem;
-      font-weight: 600;
+      font-weight: 200;
       font-size: clamp(1.6rem, 4.8vw, 2.6rem);
       text-align: center;
-      display: inline-block;
-      white-space: nowrap;
+      white-space: normal;        /* allow wrapping */
       overflow: hidden;
       border-right: 2px solid rgba(0,0,0,.35);
-      /* typing only on larger screens; overridden below on mobile */
+      display: inline-block;      /* keeps caret close to text */
       animation: typing 3s steps(30, end) forwards, caret .8s step-end infinite;
-    }
+}
+
     header p { margin: 0; opacity: .85; font-size: .95rem; }
     @keyframes typing { from { width: 0 } to { width: 100% } }
     @keyframes caret { 50% { border-color: transparent } }
@@ -96,8 +96,9 @@
     /* On small screens, don’t clip the header */
     @media (max-width: 600px) {
       header h1 {
-        animation: none;
-        border-right: none;
+        animation: typing 2.2s steps(28, end) forwards, caret .8s step-end infinite;
+        border-right: 2px solid rgba(0,0,0,.35);
+        width: auto;
         white-space: normal;
       }
     }
@@ -176,8 +177,8 @@
     /* Reduced motion support */
     @media (prefers-reduced-motion: reduce) {
       * { animation: none !important; transition: none !important; }
+      section { opacity: 1; transform: none; filter: none;}
       header h1 { border-right: 0; width: auto; }
-      section { opacity: 1; transform: none; }
     }
   </style>
 </head>

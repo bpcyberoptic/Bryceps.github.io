@@ -65,7 +65,7 @@
     header {
       background: var(--brand);
       color: #3B393A;
-      padding: 28px 12px;
+      padding: clamp(16px, 4vw, 28px) 12px;
       text-align: center;
     }
 
@@ -138,12 +138,13 @@
 
     h1 {
       border-right: 2px solid rgba(255,255,255,.9);
-      white-space: nowrap;
+      white-space: normal;
       overflow: hidden;
       width: 0;
       margin: 0 auto 6px;
       animation: typing 2.4s steps(28, end) forwards, caret .8s step-end infinite;
-      max-width: 90%;
+      max-width: 600px;
+      text-align: center;
     }
     @keyframes typing { from { width: 0 } to { width: 22ch } }
     @keyframes caret { 50% { border-color: transparent } }
