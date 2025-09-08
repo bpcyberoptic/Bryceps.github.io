@@ -1,0 +1,320 @@
+<!-- === Interactive Project Cards (Flip + Expand) === -->
+<section id="projects" class="project-cards">
+  <h2>Projects</h2>
+
+  <div class="cards" aria-live="polite">
+    <!-- Card 1 -->
+    <article class="card" tabindex="0" aria-expanded="false" aria-haspopup="dialog" aria-label="Open Project One details">
+      <div class="card-inner">
+        <!-- Front (compact) -->
+        <div class="card-face card-front">
+          <h3>Project One</h3>
+          <p>A tiny blurb about this project—one or two lines max.</p>
+        </div>
+
+        <!-- Back (expanded banner) -->
+        <div class="card-face card-back" role="dialog" aria-modal="true" aria-label="Project One details">
+          <button class="card-close" aria-label="Close project details">✕</button>
+          <header class="banner-head">
+            <h3>Project One — Case Study</h3>
+            <p class="tagline">Design system • Accessibility • Performance</p>
+          </header>
+
+          <div class="banner-body">
+            <p>
+              This is a long, scrollable area. Add process notes, goals, challenges, and outcomes.
+              Keep paragraphs short and use visuals to break things up.
+            </p>
+
+            <!-- Replace src with your images (relative paths) -->
+            <figure class="banner-image">
+              <img src="images/sample-1.jpg" alt="Hero mock for Project One">
+              <figcaption>Initial concept mockup.</figcaption>
+            </figure>
+
+            <h4>Highlights</h4>
+            <ul>
+              <li>Cut page load by 43% using image optimization & code splitting.</li>
+              <li>Shipped WCAG 2.1 AA-compliant components.</li>
+              <li>Reusable patterns documented in a living style guide.</li>
+            </ul>
+
+            <figure class="banner-image">
+              <img src="images/sample-2.jpg" alt="Screens from various breakpoints">
+              <figcaption>Responsive layouts on mobile, tablet, and desktop.</figcaption>
+            </figure>
+
+            <p>
+              Tools: HTML, CSS (custom properties), Vanilla JS, Lighthouse, Axe.
+            </p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 2 -->
+    <article class="card" tabindex="0" aria-expanded="false" aria-haspopup="dialog" aria-label="Open Project Two details">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <h3>Project Two</h3>
+          <p>Short description to tease what’s inside.</p>
+        </div>
+        <div class="card-face card-back" role="dialog" aria-modal="true" aria-label="Project Two details">
+          <button class="card-close" aria-label="Close project details">✕</button>
+          <header class="banner-head">
+            <h3>Project Two — Deep Dive</h3>
+            <p class="tagline">3D visuals • Motion • Interaction</p>
+          </header>
+          <div class="banner-body">
+            <p>Explain the problem, your approach, and the result. Include animated GIFs if you like.</p>
+            <figure class="banner-image">
+              <img src="images/sample-3.jpg" alt="Interactive component preview">
+              <figcaption>Interactive component preview.</figcaption>
+            </figure>
+            <p>Outcome: +28% engagement, clearer information scent, and faster task completion.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 3 -->
+    <article class="card" tabindex="0" aria-expanded="false" aria-haspopup="dialog" aria-label="Open Project Three details">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <h3>Project Three</h3>
+          <p>Two lines max to keep the grid clean.</p>
+        </div>
+        <div class="card-face card-back" role="dialog" aria-modal="true" aria-label="Project Three details">
+          <button class="card-close" aria-label="Close project details">✕</button>
+          <header class="banner-head">
+            <h3>Project Three — Gallery</h3>
+            <p class="tagline">Visual storytelling • Clean UI</p>
+          </header>
+          <div class="banner-body">
+            <div class="gallery">
+              <img src="images/sample-4.jpg" alt="Gallery image 1">
+              <img src="images/sample-5.jpg" alt="Gallery image 2">
+              <img src="images/sample-6.jpg" alt="Gallery image 3">
+            </div>
+            <p>Tip: Use optimized JPG/WebP and widths that match the layout for best performance.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<style>
+  /* Layout for the cards grid */
+  .project-cards .cards{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap:16px;
+    perspective: 1200px; /* enables 3D flip */
+  }
+
+  .card{
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    outline: none;
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+    transform-style: preserve-3d;
+  }
+  /* Hover float */
+  .card:hover,
+  .card:focus-visible{
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .card-inner{
+    position: relative;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform .6s var(--ease), border-radius .3s var(--ease);
+    border-radius: inherit;
+  }
+
+  .card-face{
+    backface-visibility: hidden;
+    border-radius: inherit;
+  }
+
+  /* Front (compact) */
+  .card-front{
+    padding:18px;
+    min-height: 140px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .card-front h3{ margin:0 0 4px; font-size:1.05rem; }
+  .card-front p{ margin:0; color: var(--muted); }
+
+  /* Back (expanded banner) */
+  .card-back{
+    position: fixed; /* pull out of flow to overlay everything */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotateY(180deg) scale(.92);
+    width: min(1100px, 92vw);
+    height: min(86vh, 920px);
+    background: var(--card);
+    box-shadow: var(--shadow-lg);
+    display:flex;
+    flex-direction:column;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 50;
+  }
+
+  .banner-head{
+    padding: 16px 18px;
+    border-bottom: 1px solid rgba(0,0,0,.08);
+  }
+  html[data-theme="dark"] .banner-head{
+    border-bottom-color: rgba(255,255,255,.08);
+  }
+  .banner-head h3{ margin:0 0 6px; font-size:1.2rem; }
+  .banner-head .tagline{ margin:0; color: var(--muted); font-size:.95rem; }
+
+  .card-close{
+    position:absolute; top:10px; right:10px;
+    border:0; background:transparent; color: var(--text);
+    font-size:1.1rem; padding:8px; border-radius:10px; cursor:pointer;
+  }
+  .card-close:hover{ background: rgba(0,0,0,.06); }
+  html[data-theme="dark"] .card-close:hover{ background: rgba(255,255,255,.08); }
+
+  .banner-body{
+    padding: 16px 18px 20px;
+    overflow: auto; /* scroll big content */
+    display:block;
+  }
+
+  /* Images in the banner */
+  .banner-image{
+    margin: 14px 0;
+  }
+  .banner-image img{
+    width: 100%; height: auto; display:block; border-radius:12px;
+  }
+  .banner-image figcaption{
+    margin-top:6px; color: var(--muted); font-size:.9rem;
+  }
+
+  /* Simple three-up gallery */
+  .gallery{
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap:10px;
+    margin: 10px 0 16px;
+  }
+  .gallery img{ width:100%; height:auto; border-radius:10px; display:block; }
+
+  /* Expanded state (flip + show) */
+  .card.expanded .card-inner{
+    transform: rotateY(180deg);
+  }
+  .card.expanded .card-back{
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) rotateY(180deg) scale(1);
+    transition: opacity .25s var(--ease), transform .25s var(--ease);
+  }
+
+  /* Optional: blur the background slightly when a card is open */
+  .cards.blurred .card:not(.expanded){
+    filter: blur(2px) saturate(.9);
+  }
+
+  /* Mobile tweaks */
+  @media (max-width: 560px){
+    .card-front{ min-height: 120px; }
+    .card-back{ width: 94vw; height: 84vh; }
+    .banner-head h3{ font-size: 1.1rem; }
+  }
+</style>
+
+<script>
+  (function(){
+    const grid = document.querySelector('.project-cards .cards');
+    const cards = grid.querySelectorAll('.card');
+
+    function openCard(card){
+      // Allow only one open at a time
+      cards.forEach(c => {
+        if (c !== card) { c.classList.remove('expanded'); c.setAttribute('aria-expanded', 'false'); }
+      });
+      card.classList.add('expanded');
+      card.setAttribute('aria-expanded', 'true');
+      grid.classList.add('blurred');
+      // prevent body scroll while banner is open
+      document.body.style.overflow = 'hidden';
+
+      // Move focus to the dialog for accessibility
+      const dialog = card.querySelector('.card-back');
+      if (dialog) dialog.focus({ preventScroll: true });
+    }
+
+    function closeCard(card){
+      card.classList.remove('expanded');
+      card.setAttribute('aria-expanded', 'false');
+      grid.classList.remove('blurred');
+
+      // restore body scroll if nothing is open
+      const anyOpen = [...cards].some(c => c.classList.contains('expanded'));
+      if (!anyOpen) document.body.style.overflow = '';
+
+      // Return focus to the card for keyboard users
+      card.focus({ preventScroll: true });
+    }
+
+    // Click/tap to open
+    cards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        // If clicking the close button, let that handler run
+        if (e.target.closest('.card-close')) return;
+        // If already open, ignore (or toggle if you prefer)
+        if (!card.classList.contains('expanded')) {
+          openCard(card);
+        }
+      });
+
+      // Enter/Space to open (keyboard)
+      card.addEventListener('keydown', (e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && !card.classList.contains('expanded')) {
+          e.preventDefault();
+          openCard(card);
+        }
+      });
+
+      // Close button
+      const closeBtn = card.querySelector('.card-close');
+      closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeCard(card);
+      });
+    });
+
+    // ESC closes whichever is open
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const open = grid.querySelector('.card.expanded');
+        if (open) closeCard(open);
+      }
+    });
+
+    // Click outside the open banner closes it
+    document.addEventListener('click', (e) => {
+      const open = grid.querySelector('.card.expanded .card-back');
+      if (!open) return;
+      // if click is outside the open dialog content & not on its card container
+      if (!open.contains(e.target) && !e.target.closest('.card.expanded')) {
+        const expandedCard = grid.querySelector('.card.expanded');
+        if (expandedCard) closeCard(expandedCard);
+      }
+    });
+  })();
+</script>
