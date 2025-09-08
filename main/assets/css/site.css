@@ -1,0 +1,96 @@
+/* ========= Global Site Styles (shared) ========= */
+
+/* Design tokens (kept close to what you already use) */
+:root{
+  --bg1:#f4f4f9;
+  --bg-grad-a:#eef3ff; --bg-grad-b:#f9faff; --bg-grad-c:#eef9f4;
+  --card:#ffffff;
+  --text:#1f2937; --muted:#94a3b8;
+  --brand:linear-gradient(to top right,#9CFFD4,#9CFFA3);
+  --nav:#0b1220; --nav-hover:#1f2937;
+  --shadow:0 2px 6px rgba(0,0,0,.45);
+  --shadow-lg:0 10px 28px rgba(0,0,0,.55);
+  --radius:12px; --ease:cubic-bezier(.2,.8,.2,1);
+}
+html[data-theme="dark"]{
+  --bg1:#0f172a; --bg-grad-a:#0b1225; --bg-grad-b:#0f1a33; --bg-grad-c:#0e1b2a;
+  --card:#121826; --text:#e5e7eb; --muted:#94a3b8;
+  --brand:linear-gradient(to top right,#9CFFD4,#9CFFA3);
+  --nav:#0b1220; --nav-hover:#1f2937;
+}
+
+/* Typography: Helvetica everywhere, uniform base size */
+html{ font-size:16px; }
+body,button,input,select,textarea{
+  font-family: "Helvetica", Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  line-height:1.6;
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* Background (animated gradient) */
+body{
+  margin:0;
+  background: linear-gradient(-45deg,var(--bg1),var(--bg-grad-a),var(--bg-grad-b),var(--bg-grad-c));
+  background-size:400% 400%;
+  animation:bgShift 18s ease infinite;
+}
+@keyframes bgShift{
+  0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%}
+}
+
+/* Sections: fade-in on scroll (shared class) */
+section, .fade-on-scroll, .cards .card{
+  opacity:0; transform:translateY(16px); filter:blur(2px);
+  transition: opacity .6s var(--ease), transform .6s var(--ease), filter .6s var(--ease);
+}
+.is-visible{ opacity:1 !important; transform:none !important; filter:none !important; }
+
+/* Replace typing effect with a simple hero fade-in */
+header h1, h1.hero{
+  /* kill any page-local typing animation if present */
+  animation:none !important;
+  border-right:0 !important;
+}
+.fade-in-hero{
+  opacity:0; transform:translateY(10px);
+  animation:heroIn .9s var(--ease) forwards .15s;
+}
+@keyframes heroIn{
+  to{ opacity:1; transform:none; }
+}
+
+/* Theme toggle: shared look + hit targets */
+.theme-toggle{
+  display:inline-flex; align-items:center; gap:8px;
+  border:0; background:transparent; color:#fff; cursor:pointer;
+  padding:10px 12px; border-radius:10px;
+  transition: background-color .2s var(--ease), transform .2s var(--ease);
+}
+.theme-toggle:hover{ background:var(--nav-hover); transform:translateY(-1px); }
+.theme-toggle:focus-visible{ outline:2px solid #fff; outline-offset:2px; border-radius:12px; }
+.theme-toggle svg{ width:18px; height:18px; }
+
+/* Basic nav hardening for mobile without changing your layouts */
+nav{
+  background:var(--nav); color:#fff;
+  display:flex; align-items:center; gap:8px; padding:8px 10px;
+  flex-wrap:wrap; /* allow wrapping on small screens */
+}
+nav a{
+  color:#fff; text-decoration:none; text-transform:uppercase;
+  padding:10px 14px; border-radius:8px;
+  transition:background-color .2s var(--ease), transform .2s var(--ease);
+}
+nav a:hover{ background:var(--nav-hover); transform:translateY(-1px); }
+.nav-spacer{ flex:1; }
+
+/* Cards gentle hover (keeps your project page consistent) */
+.card:not(.expanded):hover{ transform:translateY(-6px); box-shadow:var(--shadow-lg); }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *{ animation:none !important; transition:none !important; }
+  section, .fade-on-scroll, .cards .card{ opacity:1 !important; transform:none !important; filter:none !important; }
+}
