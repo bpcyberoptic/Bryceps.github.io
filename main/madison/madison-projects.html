@@ -1,320 +1,407 @@
-<!-- === Interactive Project Cards (Flip + Expand) === -->
-<section id="projects" class="project-cards">
-  <h2>Projects</h2>
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Madison | Projects</title>
 
-  <div class="cards" aria-live="polite">
-    <!-- Card 1 -->
-    <article class="card" tabindex="0" aria-expanded="false" aria-haspopup="dialog" aria-label="Open Project One details">
-      <div class="card-inner">
-        <!-- Front (compact) -->
-        <div class="card-face card-front">
-          <h3>Project One</h3>
-          <p>A tiny blurb about this project—one or two lines max.</p>
-        </div>
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#4CAF50" />
 
-        <!-- Back (expanded banner) -->
-        <div class="card-face card-back" role="dialog" aria-modal="true" aria-label="Project One details">
-          <button class="card-close" aria-label="Close project details">✕</button>
-          <header class="banner-head">
-            <h3>Project One — Case Study</h3>
-            <p class="tagline">Design system • Accessibility • Performance</p>
-          </header>
+  <style>
+    /* ---------- THEME TOKENS ---------- */
+    :root {
+      --bg1: #f4f4f9;
+      --bg-grad-a: #eef3ff;
+      --bg-grad-b: #f9faff;
+      --bg-grad-c: #eef9f4;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #4b5563;
+      --brand: linear-gradient(to top right, #9CFFD4, #9CFFA3);
+      --nav: #333333;
+      --nav-hover: #575757;
+      --shadow: 0 2px 5px rgba(0,0,0,0.1);
+      --shadow-lg: 0 8px 20px rgba(0,0,0,0.18);
+      --radius: 12px;
+      --ease: cubic-bezier(.2,.8,.2,1);
+    }
 
-          <div class="banner-body">
-            <p>
-              This is a long, scrollable area. Add process notes, goals, challenges, and outcomes.
-              Keep paragraphs short and use visuals to break things up.
-            </p>
+    /* Fade-in baseline (hidden) */
+.cards .card {
+  opacity: 0;
+  transform: translateY(16px);
+  filter: blur(2px);
+  transition: opacity .6s var(--ease), transform .6s var(--ease), filter .6s var(--ease);
+}
 
-            <!-- Replace src with your images (relative paths) -->
-            <figure class="banner-image">
-              <img src="images/sample-1.jpg" alt="Hero mock for Project One">
-              <figcaption>Initial concept mockup.</figcaption>
-            </figure>
+/* When visible in viewport */
+.cards .card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
 
-            <h4>Highlights</h4>
-            <ul>
-              <li>Cut page load by 43% using image optimization & code splitting.</li>
-              <li>Shipped WCAG 2.1 AA-compliant components.</li>
-              <li>Reusable patterns documented in a living style guide.</li>
-            </ul>
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .cards .card {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+}
 
-            <figure class="banner-image">
-              <img src="images/sample-2.jpg" alt="Screens from various breakpoints">
-              <figcaption>Responsive layouts on mobile, tablet, and desktop.</figcaption>
-            </figure>
+    html[data-theme="dark"] {
+      --bg1: #0f172a;
+      --bg-grad-a: #0b1225;
+      --bg-grad-b: #0f1a33;
+      --bg-grad-c: #0e1b2a;
+      --card: #121826;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --brand: linear-gradient(to top right, #9CFFD4, #9CFFA3);
+      --nav: #0b1220;
+      --nav-hover: #1f2937;
+      --shadow: 0 2px 6px rgba(0,0,0,0.45);
+      --shadow-lg: 0 10px 28px rgba(0,0,0,0.55);
+    }
 
-            <p>
-              Tools: HTML, CSS (custom properties), Vanilla JS, Lighthouse, Axe.
-            </p>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+      background: linear-gradient(-45deg, var(--bg1), var(--bg-grad-a), var(--bg-grad-b), var(--bg-grad-c));
+      background-size: 400% 400%;
+      animation: bgShift 18s ease infinite;
+    }
+    @keyframes bgShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    header {
+      background: var(--brand);
+      color: #111;
+      text-align: center;
+      padding: clamp(16px, 4vw, 28px) 12px;
+    }
+    header h1 {
+      margin: 0.2rem auto;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 5vw, 2.6rem);
+      text-align: center;
+    }
+    header p { margin: 0; opacity: .85; font-size: .95rem; }
+
+    /* NAV */
+    nav {
+      background: var(--nav);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 6px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: .92rem;
+      padding: 10px 14px;
+      border-radius: 8px;
+      transition: background-color .2s var(--ease), transform .2s var(--ease);
+    }
+    .nav-links a:hover { background: var(--nav-hover); transform: translateY(-1px); }
+
+    .menu-toggle {
+      display: none;
+      border: 0; background: transparent; color: #fff;
+      font-size: 1.4rem; padding: 10px 12px; cursor: pointer;
+    }
+    .menu-toggle:hover { background: var(--nav-hover); border-radius: 8px; }
+
+    .nav-spacer { flex: 1; }
+    .toggle-wrap { display: flex; align-items: center; }
+    .theme-toggle {
+      border: 0; background: transparent; color: #fff;
+      display: inline-flex; align-items: center; gap: 6px;
+      cursor: pointer; padding: 8px 10px;
+    }
+
+    @media (max-width: 768px){
+      .menu-toggle{ display:inline-flex; }
+      .nav-links{
+        position: fixed; top:56px; left:0; right:0;
+        background: var(--nav);
+        flex-direction: column;
+        padding: 10px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height .3s var(--ease);
+      }
+      .nav-links.open{ max-height: 60vh; }
+      .nav-links a{ width:100%; }
+    }
+
+    main { max-width: 1100px; margin: 24px auto 96px; padding: 0 12px; }
+
+    /* === PROJECT CARDS === */
+    .cards{ display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:16px; }
+    .card{
+      background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+      cursor: pointer; outline: none;
+      transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+      transform-style: preserve-3d;
+    }
+    .card:hover{ transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .card-inner{ position:relative; transform-style:preserve-3d; transition:transform .6s var(--ease); }
+    .card-face{ backface-visibility:hidden; border-radius:inherit; }
+    .card-front{ padding:18px; min-height:140px; display:flex; flex-direction:column; gap:8px; }
+    .card-front h3{ margin:0; font-size:1.05rem; }
+    .card-front p{ margin:0; color:var(--muted); }
+    .card-back{
+      position: fixed; left:50%; top:50%;
+      transform: translate(-50%,-50%) rotateY(180deg) scale(.92);
+      width:min(1100px,92vw); height:min(86vh,920px);
+      background: var(--card); box-shadow:var(--shadow-lg);
+      display:flex; flex-direction:column; opacity:0; pointer-events:none; overflow:hidden; z-index:50;
+    }
+    .card.expanded .card-inner{ transform: rotateY(180deg); }
+    .card.expanded .card-back{
+      opacity:1; pointer-events:auto;
+      transform: translate(-50%,-50%) rotateY(180deg) scale(1);
+      transition: opacity .25s var(--ease), transform .25s var(--ease);
+    }
+    .banner-head{ padding:16px 18px; border-bottom:1px solid rgba(0,0,0,.1); }
+    html[data-theme="dark"] .banner-head{ border-bottom-color:rgba(255,255,255,.1); }
+    .banner-body{ padding:16px 18px 20px; overflow:auto; }
+    .card-close{ position:absolute; top:10px; right:10px; background:transparent; border:0; font-size:1.2rem; cursor:pointer; }
+
+    footer {
+      background: var(--nav);
+      color: white;
+      text-align: center;
+      padding: 12px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Madison’s Projects</h1>
+    <p>Interactive Storyboard of Accomplishments</p>
+  </header>
+
+  <nav>
+    <button class="menu-toggle" id="menuToggle" aria-expanded="false">☰</button>
+    <ul class="nav-links" id="siteNav">
+      <li><a href="/main/madison/madison.html">Madison Home</a></li>
+      <li><a href="/main/madison/madison-projects.html">Projects</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+    <span class="nav-spacer"></span>
+    <div class="toggle-wrap">
+      <button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false">🌙</button>
+    </div>
+  </nav>
+
+  <main>
+  <section class="project-cards">
+    <h2>Projects</h2>
+    <div class="cards" aria-live="polite">
+
+      <!-- Project 1 -->
+      <article class="card" tabindex="0" aria-expanded="false">
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <h3>Portfolio Redesign</h3>
+            <p>A modern rebuild of Madison’s online presence.</p>
           </div>
-        </div>
-      </div>
-    </article>
-
-    <!-- Card 2 -->
-    <article class="card" tabindex="0" aria-expanded="false" aria-haspopup="dialog" aria-label="Open Project Two details">
-      <div class="card-inner">
-        <div class="card-face card-front">
-          <h3>Project Two</h3>
-          <p>Short description to tease what’s inside.</p>
-        </div>
-        <div class="card-face card-back" role="dialog" aria-modal="true" aria-label="Project Two details">
-          <button class="card-close" aria-label="Close project details">✕</button>
-          <header class="banner-head">
-            <h3>Project Two — Deep Dive</h3>
-            <p class="tagline">3D visuals • Motion • Interaction</p>
-          </header>
-          <div class="banner-body">
-            <p>Explain the problem, your approach, and the result. Include animated GIFs if you like.</p>
-            <figure class="banner-image">
-              <img src="images/sample-3.jpg" alt="Interactive component preview">
-              <figcaption>Interactive component preview.</figcaption>
-            </figure>
-            <p>Outcome: +28% engagement, clearer information scent, and faster task completion.</p>
-          </div>
-        </div>
-      </div>
-    </article>
-
-    <!-- Card 3 -->
-    <article class="card" tabindex="0" aria-expanded="false" aria-haspopup="dialog" aria-label="Open Project Three details">
-      <div class="card-inner">
-        <div class="card-face card-front">
-          <h3>Project Three</h3>
-          <p>Two lines max to keep the grid clean.</p>
-        </div>
-        <div class="card-face card-back" role="dialog" aria-modal="true" aria-label="Project Three details">
-          <button class="card-close" aria-label="Close project details">✕</button>
-          <header class="banner-head">
-            <h3>Project Three — Gallery</h3>
-            <p class="tagline">Visual storytelling • Clean UI</p>
-          </header>
-          <div class="banner-body">
-            <div class="gallery">
-              <img src="images/sample-4.jpg" alt="Gallery image 1">
-              <img src="images/sample-5.jpg" alt="Gallery image 2">
-              <img src="images/sample-6.jpg" alt="Gallery image 3">
+          <div class="card-face card-back">
+            <button class="card-close">✕</button>
+            <header class="banner-head">
+              <h3>Portfolio Redesign</h3>
+              <p class="tagline">UI • UX • Branding</p>
+            </header>
+            <div class="banner-body">
+              <p>
+                This project involved a full rebuild of the personal portfolio.  
+                The focus was on **responsiveness**, **accessibility**, and a 
+                clean minimalist aesthetic to highlight accomplishments.
+              </p>
+              <img src="/main/madison/images/portfolio-preview.jpg" 
+                   alt="Portfolio screenshot" 
+                   style="max-width:100%;border-radius:12px;">
+              <p>
+                ✦ Built with HTML, CSS variables, and vanilla JS  
+                ✦ Optimized for mobile and desktop  
+                ✦ Improved page load by 40%
+              </p>
             </div>
-            <p>Tip: Use optimized JPG/WebP and widths that match the layout for best performance.</p>
           </div>
         </div>
-      </div>
-    </article>
-  </div>
-</section>
+      </article>
 
-<style>
-  /* Layout for the cards grid */
-  .project-cards .cards{
-    display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap:16px;
-    perspective: 1200px; /* enables 3D flip */
-  }
+      <!-- Project 2 -->
+      <article class="card" tabindex="0" aria-expanded="false">
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <h3>Interactive Storyboard</h3>
+            <p>A showcase of Madison’s accomplishments in a fun format.</p>
+          </div>
+          <div class="card-face card-back">
+            <button class="card-close">✕</button>
+            <header class="banner-head">
+              <h3>Interactive Storyboard</h3>
+              <p class="tagline">Animations • Interactivity • Narrative</p>
+            </header>
+            <div class="banner-body">
+              <p>
+                This project created a storyboard-like website that brings 
+                accomplishments to life with interactive cards and scroll-based reveals.
+              </p>
+              <figure class="banner-image">
+                <img src="/main/madison/images/storyboard-demo.jpg" alt="Storyboard demo" style="width:100%;border-radius:12px;">
+                <figcaption>Storyboard card interactions.</figcaption>
+              </figure>
+              <ul>
+                <li>Hover animations for engagement</li>
+                <li>Click-to-expand flipping cards</li>
+                <li>Scrollable detail panels with text & images</li>
+              </ul>
+              <p>This project demonstrates how simple static pages can feel dynamic and immersive.</p>
+            </div>
+          </div>
+        </div>
+      </article>
 
-  .card{
-    background: var(--card);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    cursor: pointer;
-    outline: none;
-    transition: transform .25s var(--ease), box-shadow .25s var(--ease);
-    transform-style: preserve-3d;
-  }
-  /* Hover float */
-  .card:hover,
-  .card:focus-visible{
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-lg);
-  }
+      <!-- Project 3 -->
+      <article class="card" tabindex="0" aria-expanded="false">
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <h3>Community Blog Redesign</h3>
+            <p>A refresh for a local community blog platform.</p>
+          </div>
+          <div class="card-face card-back">
+            <button class="card-close">✕</button>
+            <header class="banner-head">
+              <h3>Community Blog Redesign</h3>
+              <p class="tagline">Content-first • Accessibility • Performance</p>
+            </header>
+            <div class="banner-body">
+              <p>
+                Madison led the redesign of a local community blog, focusing on 
+                typography, readability, and lightweight performance.
+              </p>
+              <figure class="banner-image">
+                <img src="/main/madison/images/blog-redesign.jpg" alt="Community blog redesign preview" style="width:100%;border-radius:12px;">
+                <figcaption>Clean, readable blog layout.</figcaption>
+              </figure>
+              <p>
+                ✦ Switched to semantic HTML and ARIA roles  
+                ✦ Boosted accessibility score to 100 in Lighthouse  
+                ✦ Implemented mobile-first design
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
 
-  .card-inner{
-    position: relative;
-    height: 100%;
-    transform-style: preserve-3d;
-    transition: transform .6s var(--ease), border-radius .3s var(--ease);
-    border-radius: inherit;
-  }
+    </div>
+  </section>
+</main>
 
-  .card-face{
-    backface-visibility: hidden;
-    border-radius: inherit;
-  }
 
-  /* Front (compact) */
-  .card-front{
-    padding:18px;
-    min-height: 140px;
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-  }
-  .card-front h3{ margin:0 0 4px; font-size:1.05rem; }
-  .card-front p{ margin:0; color: var(--muted); }
+  <footer>
+    <p>© 2025 Madison’s Projects</p>
+  </footer>
 
-  /* Back (expanded banner) */
-  .card-back{
-    position: fixed; /* pull out of flow to overlay everything */
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) rotateY(180deg) scale(.92);
-    width: min(1100px, 92vw);
-    height: min(86vh, 920px);
-    background: var(--card);
-    box-shadow: var(--shadow-lg);
-    display:flex;
-    flex-direction:column;
-    opacity: 0;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 50;
-  }
-
-  .banner-head{
-    padding: 16px 18px;
-    border-bottom: 1px solid rgba(0,0,0,.08);
-  }
-  html[data-theme="dark"] .banner-head{
-    border-bottom-color: rgba(255,255,255,.08);
-  }
-  .banner-head h3{ margin:0 0 6px; font-size:1.2rem; }
-  .banner-head .tagline{ margin:0; color: var(--muted); font-size:.95rem; }
-
-  .card-close{
-    position:absolute; top:10px; right:10px;
-    border:0; background:transparent; color: var(--text);
-    font-size:1.1rem; padding:8px; border-radius:10px; cursor:pointer;
-  }
-  .card-close:hover{ background: rgba(0,0,0,.06); }
-  html[data-theme="dark"] .card-close:hover{ background: rgba(255,255,255,.08); }
-
-  .banner-body{
-    padding: 16px 18px 20px;
-    overflow: auto; /* scroll big content */
-    display:block;
-  }
-
-  /* Images in the banner */
-  .banner-image{
-    margin: 14px 0;
-  }
-  .banner-image img{
-    width: 100%; height: auto; display:block; border-radius:12px;
-  }
-  .banner-image figcaption{
-    margin-top:6px; color: var(--muted); font-size:.9rem;
-  }
-
-  /* Simple three-up gallery */
-  .gallery{
-    display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap:10px;
-    margin: 10px 0 16px;
-  }
-  .gallery img{ width:100%; height:auto; border-radius:10px; display:block; }
-
-  /* Expanded state (flip + show) */
-  .card.expanded .card-inner{
-    transform: rotateY(180deg);
-  }
-  .card.expanded .card-back{
-    opacity: 1;
-    pointer-events: auto;
-    transform: translate(-50%, -50%) rotateY(180deg) scale(1);
-    transition: opacity .25s var(--ease), transform .25s var(--ease);
-  }
-
-  /* Optional: blur the background slightly when a card is open */
-  .cards.blurred .card:not(.expanded){
-    filter: blur(2px) saturate(.9);
-  }
-
-  /* Mobile tweaks */
-  @media (max-width: 560px){
-    .card-front{ min-height: 120px; }
-    .card-back{ width: 94vw; height: 84vh; }
-    .banner-head h3{ font-size: 1.1rem; }
-  }
-</style>
-
-<script>
-  (function(){
-    const grid = document.querySelector('.project-cards .cards');
-    const cards = grid.querySelectorAll('.card');
-
-    function openCard(card){
-      // Allow only one open at a time
-      cards.forEach(c => {
-        if (c !== card) { c.classList.remove('expanded'); c.setAttribute('aria-expanded', 'false'); }
+  <script>
+    // Mobile menu toggle
+    (function(){
+      const toggle=document.getElementById('menuToggle');
+      const nav=document.getElementById('siteNav');
+      toggle.addEventListener('click',()=>{
+        const open=nav.classList.toggle('open');
+        toggle.setAttribute('aria-expanded',open);
       });
-      card.classList.add('expanded');
-      card.setAttribute('aria-expanded', 'true');
-      grid.classList.add('blurred');
-      // prevent body scroll while banner is open
-      document.body.style.overflow = 'hidden';
+    })();
 
-      // Move focus to the dialog for accessibility
-      const dialog = card.querySelector('.card-back');
-      if (dialog) dialog.focus({ preventScroll: true });
-    }
+    // Theme toggle
+    (function(){
+      const btn=document.getElementById("themeToggle");
+      const root=document.documentElement;
+      function setTheme(mode){
+        root.setAttribute("data-theme",mode);
+        btn.textContent=mode==="dark"?"☀️":"🌙";
+        localStorage.setItem("theme",mode);
+      }
+      const saved=localStorage.getItem("theme") || 
+        (window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
+      setTheme(saved);
+      btn.addEventListener("click",()=>setTheme(root.getAttribute("data-theme")==="dark"?"light":"dark"));
+    })();
 
-    function closeCard(card){
-      card.classList.remove('expanded');
-      card.setAttribute('aria-expanded', 'false');
-      grid.classList.remove('blurred');
-
-      // restore body scroll if nothing is open
-      const anyOpen = [...cards].some(c => c.classList.contains('expanded'));
-      if (!anyOpen) document.body.style.overflow = '';
-
-      // Return focus to the card for keyboard users
-      card.focus({ preventScroll: true });
-    }
-
-    // Click/tap to open
-    cards.forEach(card => {
-      card.addEventListener('click', (e) => {
-        // If clicking the close button, let that handler run
-        if (e.target.closest('.card-close')) return;
-        // If already open, ignore (or toggle if you prefer)
-        if (!card.classList.contains('expanded')) {
-          openCard(card);
+    // Card expand/close
+    (function(){
+      const cards=document.querySelectorAll('.card');
+      cards.forEach(card=>{
+        const close=card.querySelector('.card-close');
+        card.addEventListener('click',(e)=>{
+          if(e.target===close) return;
+          if(!card.classList.contains('expanded')){
+            cards.forEach(c=>c.classList.remove('expanded'));
+            card.classList.add('expanded');
+            card.setAttribute('aria-expanded','true');
+            document.body.style.overflow='hidden';
+          }
+        });
+        if(close){
+          close.addEventListener('click',(e)=>{
+            e.stopPropagation();
+            card.classList.remove('expanded');
+            card.setAttribute('aria-expanded','false');
+            document.body.style.overflow='';
+          });
         }
       });
-
-      // Enter/Space to open (keyboard)
-      card.addEventListener('keydown', (e) => {
-        if ((e.key === 'Enter' || e.key === ' ') && !card.classList.contains('expanded')) {
-          e.preventDefault();
-          openCard(card);
+      document.addEventListener('keydown',(e)=>{
+        if(e.key==='Escape'){
+          cards.forEach(c=>c.classList.remove('expanded'));
+          document.body.style.overflow='';
         }
       });
-
-      // Close button
-      const closeBtn = card.querySelector('.card-close');
-      closeBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        closeCard(card);
+    })();
+  </script>
+  <script>
+  (function() {
+    const cards = document.querySelectorAll('.cards .card');
+    // If IntersectionObserver is unavailable, just show them
+    if (!('IntersectionObserver' in window)) {
+      cards.forEach(c => c.classList.add('is-visible'));
+      return;
+    }
+    const obs = new IntersectionObserver((entries, o) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-visible');
+          o.unobserve(e.target); // animate once
+        }
       });
-    });
-
-    // ESC closes whichever is open
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        const open = grid.querySelector('.card.expanded');
-        if (open) closeCard(open);
-      }
-    });
-
-    // Click outside the open banner closes it
-    document.addEventListener('click', (e) => {
-      const open = grid.querySelector('.card.expanded .card-back');
-      if (!open) return;
-      // if click is outside the open dialog content & not on its card container
-      if (!open.contains(e.target) && !e.target.closest('.card.expanded')) {
-        const expandedCard = grid.querySelector('.card.expanded');
-        if (expandedCard) closeCard(expandedCard);
-      }
-    });
+    }, { threshold: 0.12 });
+    cards.forEach(c => obs.observe(c));
   })();
 </script>
+</body>
+</html>
