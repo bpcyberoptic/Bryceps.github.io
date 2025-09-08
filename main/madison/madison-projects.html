@@ -26,32 +26,6 @@
       --radius: 12px;
       --ease: cubic-bezier(.2,.8,.2,1);
     }
-
-    /* Fade-in baseline (hidden) */
-.cards .card {
-  opacity: 0;
-  transform: translateY(16px);
-  filter: blur(2px);
-  transition: opacity .6s var(--ease), transform .6s var(--ease), filter .6s var(--ease);
-}
-
-/* When visible in viewport */
-.cards .card.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
-}
-
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .cards .card {
-    opacity: 1 !important;
-    transform: none !important;
-    filter: none !important;
-    transition: none !important;
-  }
-}
-
     html[data-theme="dark"] {
       --bg1: #0f172a;
       --bg-grad-a: #0b1225;
@@ -67,132 +41,97 @@
       --shadow-lg: 0 10px 28px rgba(0,0,0,0.55);
     }
 
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: var(--text);
-      line-height: 1.6;
-      background: linear-gradient(-45deg, var(--bg1), var(--bg-grad-a), var(--bg-grad-b), var(--bg-grad-c));
-      background-size: 400% 400%;
-      animation: bgShift 18s ease infinite;
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text); line-height:1.6;
+      background:linear-gradient(-45deg,var(--bg1),var(--bg-grad-a),var(--bg-grad-b),var(--bg-grad-c));
+      background-size:400% 400%; animation:bgShift 18s ease infinite;
     }
-    @keyframes bgShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+    @keyframes bgShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 
-    header {
-      background: var(--brand);
-      color: #111;
-      text-align: center;
+    header{
+      background:var(--brand); color:#111; text-align:center;
       padding: clamp(16px, 4vw, 28px) 12px;
     }
-    header h1 {
-      margin: 0.2rem auto;
-      font-weight: 700;
-      font-size: clamp(1.6rem, 5vw, 2.6rem);
-      text-align: center;
-    }
-    header p { margin: 0; opacity: .85; font-size: .95rem; }
+    header h1{ margin:.2rem auto; font-weight:700; font-size:clamp(1.6rem,5vw,2.6rem); }
+    header p{ margin:0; opacity:.85; font-size:.95rem }
 
-    /* NAV */
-    nav {
-      background: var(--nav);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 10px;
+    nav{
+      background:var(--nav); color:#fff; display:flex; align-items:center; gap:8px; padding:8px 10px;
     }
-    .nav-links {
-      display: flex;
-      gap: 6px;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    .nav-links a {
-      color: #fff;
-      text-decoration: none;
-      text-transform: uppercase;
-      font-size: .92rem;
-      padding: 10px 14px;
-      border-radius: 8px;
-      transition: background-color .2s var(--ease), transform .2s var(--ease);
-    }
-    .nav-links a:hover { background: var(--nav-hover); transform: translateY(-1px); }
-
-    .menu-toggle {
-      display: none;
-      border: 0; background: transparent; color: #fff;
-      font-size: 1.4rem; padding: 10px 12px; cursor: pointer;
-    }
-    .menu-toggle:hover { background: var(--nav-hover); border-radius: 8px; }
-
-    .nav-spacer { flex: 1; }
-    .toggle-wrap { display: flex; align-items: center; }
-    .theme-toggle {
-      border: 0; background: transparent; color: #fff;
-      display: inline-flex; align-items: center; gap: 6px;
-      cursor: pointer; padding: 8px 10px;
-    }
+    .menu-toggle{ display:none; border:0; background:transparent; color:#fff; font-size:1.4rem; padding:10px 12px; cursor:pointer; }
+    .nav-links{ display:flex; gap:6px; list-style:none; margin:0; padding:0; }
+    .nav-links a{ color:#fff; text-decoration:none; text-transform:uppercase; font-size:.92rem; padding:10px 14px; border-radius:8px; transition:background-color .2s var(--ease), transform .2s var(--ease); }
+    .nav-links a:hover{ background:var(--nav-hover); transform:translateY(-1px); }
+    .nav-spacer{ flex:1 }
+    .theme-toggle{ border:0; background:transparent; color:#fff; display:inline-flex; align-items:center; gap:6px; cursor:pointer; padding:8px 10px; }
 
     @media (max-width: 768px){
       .menu-toggle{ display:inline-flex; }
       .nav-links{
-        position: fixed; top:56px; left:0; right:0;
-        background: var(--nav);
-        flex-direction: column;
-        padding: 10px;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height .3s var(--ease);
+        position:fixed; top:56px; left:0; right:0; background:var(--nav);
+        flex-direction:column; padding:10px; max-height:0; overflow:hidden; transition:max-height .3s var(--ease); z-index:15;
       }
-      .nav-links.open{ max-height: 60vh; }
-      .nav-links a{ width:100%; }
+      .nav-links.open{ max-height:60vh; }
+      .nav-links a{ width:100% }
     }
 
-    main { max-width: 1100px; margin: 24px auto 96px; padding: 0 12px; }
+    main{ max-width: 1000px; margin: 24px auto 96px; padding: 0 12px; }
 
-    /* === PROJECT CARDS === */
-    .cards{ display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:16px; }
+    /* ---------- INTERACTIVE STACKED CARDS (INLINE EXPANSION) ---------- */
+    .cards{ display:grid; grid-template-columns: 1fr; gap:16px; }
+
     .card{
-      background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
-      cursor: pointer; outline: none;
-      transition: transform .25s var(--ease), box-shadow .25s var(--ease);
-      transform-style: preserve-3d;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: box-shadow .25s var(--ease), transform .25s var(--ease);
+      overflow: hidden;
     }
-    .card:hover{ transform: translateY(-6px); box-shadow: var(--shadow-lg); }
-    .card-inner{ position:relative; transform-style:preserve-3d; transition:transform .6s var(--ease); }
-    .card-face{ backface-visibility:hidden; border-radius:inherit; }
-    .card-front{ padding:18px; min-height:140px; display:flex; flex-direction:column; gap:8px; }
-    .card-front h3{ margin:0; font-size:1.05rem; }
-    .card-front p{ margin:0; color:var(--muted); }
-    .card-back{
-      position: fixed; left:50%; top:50%;
-      transform: translate(-50%,-50%) rotateY(180deg) scale(.92);
-      width:min(1100px,92vw); height:min(86vh,920px);
-      background: var(--card); box-shadow:var(--shadow-lg);
-      display:flex; flex-direction:column; opacity:0; pointer-events:none; overflow:hidden; z-index:50;
-    }
-    .card.expanded .card-inner{ transform: rotateY(180deg); }
-    .card.expanded .card-back{
-      opacity:1; pointer-events:auto;
-      transform: translate(-50%,-50%) rotateY(180deg) scale(1);
-      transition: opacity .25s var(--ease), transform .25s var(--ease);
-    }
-    .banner-head{ padding:16px 18px; border-bottom:1px solid rgba(0,0,0,.1); }
-    html[data-theme="dark"] .banner-head{ border-bottom-color:rgba(255,255,255,.1); }
-    .banner-body{ padding:16px 18px 20px; overflow:auto; }
-    .card-close{ position:absolute; top:10px; right:10px; background:transparent; border:0; font-size:1.2rem; cursor:pointer; }
+    /* hover float (only when collapsed) */
+    .card:not(.expanded):hover{ transform: translateY(-6px); box-shadow: var(--shadow-lg); }
 
-    footer {
-      background: var(--nav);
-      color: white;
-      text-align: center;
-      padding: 12px;
+    /* Summary button (full-width, resets default button styles) */
+    .card-summary{
+      appearance: none; border:0; background:transparent; cursor:pointer; width:100%;
+      text-align:left; padding:18px; display:flex; flex-direction:column; gap:8px;
     }
+    .card-summary h3{ margin:0; font-size:1.08rem; }
+    .card-summary p{ margin:0; color: var(--muted); }
+
+    /* Details panel (smooth height animation) */
+    .card-details{
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height .45s var(--ease), opacity .3s var(--ease), padding .3s var(--ease);
+      padding: 0 18px; /* will animate in */
+    }
+    .card.expanded .card-details{
+      opacity: 1;
+      padding: 12px 18px 18px;
+    }
+
+    /* Detail content styling */
+    .detail-head{ margin-bottom:8px; }
+    .detail-head .tagline{ margin:.25rem 0 0; color:var(--muted); font-size:.95rem; }
+    .detail-body{ display:block }
+    .banner-image{ margin:12px 0 }
+    .banner-image img{ width:100%; height:auto; display:block; border-radius:12px }
+    .banner-image figcaption{ margin-top:6px; color:var(--muted); font-size:.9rem }
+
+    /* Fade-in on scroll (cards) */
+    .cards .card{ opacity:0; transform: translateY(16px); filter: blur(2px); transition: opacity .6s var(--ease), transform .6s var(--ease), filter .6s var(--ease) }
+    .cards .card.is-visible{ opacity:1; transform: translateY(0); filter: none }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *{ animation:none !important; transition:none !important }
+      .cards .card{ opacity:1 !important; transform:none !important; filter:none !important }
+    }
+
+    footer{ background:var(--nav); color:#fff; text-align:center; padding:12px; }
   </style>
 </head>
 <body>
@@ -202,139 +141,117 @@
   </header>
 
   <nav>
-    <button class="menu-toggle" id="menuToggle" aria-expanded="false">☰</button>
+    <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Open menu">☰</button>
     <ul class="nav-links" id="siteNav">
       <li><a href="/main/madison/madison.html">Madison Home</a></li>
-      <li><a href="/main/madison/madison-projects.html">Projects</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#contact">Contact</a></li>
-      <li><a href="#about">About</a></li>
+      <li><a href="/main/madison/madison-projects.html" aria-current="page">Projects</a></li>
+      <li><a href="/main/madison/madison.html#education">Education</a></li>
+      <li><a href="/main/madison/madison.html#contact">Contact</a></li>
+      <li><a href="/main/madison/madison.html#about">About</a></li>
     </ul>
     <span class="nav-spacer"></span>
-    <div class="toggle-wrap">
-      <button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false">🌙</button>
-    </div>
+    <button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false" title="Toggle dark mode">🌙</button>
   </nav>
 
   <main>
-  <section class="project-cards">
-    <h2>Projects</h2>
-    <div class="cards" aria-live="polite">
+    <section class="project-cards">
+      <h2>Projects</h2>
 
-      <!-- Project 1 -->
-      <article class="card" tabindex="0" aria-expanded="false">
-        <div class="card-inner">
-          <div class="card-face card-front">
+      <div class="cards" id="cards" aria-live="polite">
+        <!-- Card 1 -->
+        <article class="card" data-card>
+          <button class="card-summary" type="button" aria-expanded="false" aria-controls="details-1">
             <h3>Portfolio Redesign</h3>
             <p>A modern rebuild of Madison’s online presence.</p>
-          </div>
-          <div class="card-face card-back">
-            <button class="card-close">✕</button>
-            <header class="banner-head">
-              <h3>Portfolio Redesign</h3>
+          </button>
+          <div class="card-details" id="details-1" hidden>
+            <div class="detail-head">
               <p class="tagline">UI • UX • Branding</p>
-            </header>
-            <div class="banner-body">
-              <p>
-                This project involved a full rebuild of the personal portfolio.  
-                The focus was on **responsiveness**, **accessibility**, and a 
-                clean minimalist aesthetic to highlight accomplishments.
-              </p>
-              <img src="/main/madison/images/portfolio-preview.jpg" 
-                   alt="Portfolio screenshot" 
-                   style="max-width:100%;border-radius:12px;">
-              <p>
-                ✦ Built with HTML, CSS variables, and vanilla JS  
-                ✦ Optimized for mobile and desktop  
-                ✦ Improved page load by 40%
-              </p>
             </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- Project 2 -->
-      <article class="card" tabindex="0" aria-expanded="false">
-        <div class="card-inner">
-          <div class="card-face card-front">
-            <h3>Interactive Storyboard</h3>
-            <p>A showcase of Madison’s accomplishments in a fun format.</p>
-          </div>
-          <div class="card-face card-back">
-            <button class="card-close">✕</button>
-            <header class="banner-head">
-              <h3>Interactive Storyboard</h3>
-              <p class="tagline">Animations • Interactivity • Narrative</p>
-            </header>
-            <div class="banner-body">
+            <div class="detail-body">
               <p>
-                This project created a storyboard-like website that brings 
-                accomplishments to life with interactive cards and scroll-based reveals.
+                Full rebuild with a focus on responsiveness, accessibility, and a clean minimalist aesthetic to highlight achievements.
               </p>
               <figure class="banner-image">
-                <img src="/main/madison/images/storyboard-demo.jpg" alt="Storyboard demo" style="width:100%;border-radius:12px;">
-                <figcaption>Storyboard card interactions.</figcaption>
+                <img src="/main/madison/images/portfolio-preview.jpg" alt="Portfolio screenshot">
+                <figcaption>Initial responsive preview.</figcaption>
               </figure>
               <ul>
-                <li>Hover animations for engagement</li>
-                <li>Click-to-expand flipping cards</li>
-                <li>Scrollable detail panels with text & images</li>
+                <li>HTML + CSS Variables + Vanilla JS</li>
+                <li>Improved page load by ~40%</li>
+                <li>WCAG 2.1 AA components</li>
               </ul>
-              <p>This project demonstrates how simple static pages can feel dynamic and immersive.</p>
             </div>
           </div>
-        </div>
-      </article>
+        </article>
 
-      <!-- Project 3 -->
-      <article class="card" tabindex="0" aria-expanded="false">
-        <div class="card-inner">
-          <div class="card-face card-front">
-            <h3>Community Blog Redesign</h3>
-            <p>A refresh for a local community blog platform.</p>
-          </div>
-          <div class="card-face card-back">
-            <button class="card-close">✕</button>
-            <header class="banner-head">
-              <h3>Community Blog Redesign</h3>
-              <p class="tagline">Content-first • Accessibility • Performance</p>
-            </header>
-            <div class="banner-body">
+        <!-- Card 2 -->
+        <article class="card" data-card>
+          <button class="card-summary" type="button" aria-expanded="false" aria-controls="details-2">
+            <h3>Interactive Storyboard</h3>
+            <p>Accomplishments presented as playful, expandable cards.</p>
+          </button>
+          <div class="card-details" id="details-2" hidden>
+            <div class="detail-head">
+              <p class="tagline">Animations • Interactivity • Narrative</p>
+            </div>
+            <div class="detail-body">
               <p>
-                Madison led the redesign of a local community blog, focusing on 
-                typography, readability, and lightweight performance.
+                A storyboard-like experience with hover micro-interactions and inline expanding sections to tell the story behind each milestone.
               </p>
               <figure class="banner-image">
-                <img src="/main/madison/images/blog-redesign.jpg" alt="Community blog redesign preview" style="width:100%;border-radius:12px;">
-                <figcaption>Clean, readable blog layout.</figcaption>
+                <img src="/main/madison/images/storyboard-demo.jpg" alt="Storyboard demo">
+                <figcaption>Card interactions and narrative flow.</figcaption>
+              </figure>
+              <ul>
+                <li>Hover float + shadow lift</li>
+                <li>Click to expand inline (no overlays)</li>
+                <li>Scrollable rich content: text, images, lists</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="card" data-card>
+          <button class="card-summary" type="button" aria-expanded="false" aria-controls="details-3">
+            <h3>Community Blog Redesign</h3>
+            <p>Readability, accessibility, and performance first.</p>
+          </button>
+          <div class="card-details" id="details-3" hidden>
+            <div class="detail-head">
+              <p class="tagline">Content-first • Accessibility • Performance</p>
+            </div>
+            <div class="detail-body">
+              <p>
+                A redesign focused on typography, mobile-first layout, and semantic HTML for a better reading experience.
+              </p>
+              <figure class="banner-image">
+                <img src="/main/madison/images/blog-redesign.jpg" alt="Community blog redesign preview">
+                <figcaption>Clean, readable layouts across breakpoints.</figcaption>
               </figure>
               <p>
-                ✦ Switched to semantic HTML and ARIA roles  
-                ✦ Boosted accessibility score to 100 in Lighthouse  
-                ✦ Implemented mobile-first design
+                Lighthouse Accessibility: <strong>100</strong> • Faster TTI and CLS.
               </p>
             </div>
           </div>
-        </div>
-      </article>
+        </article>
+      </div>
+    </section>
+  </main>
 
-    </div>
-  </section>
-</main>
-
-
-  <footer>
-    <p>© 2025 Madison’s Projects</p>
-  </footer>
+  <footer><p>© 2025 Madison’s Projects</p></footer>
 
   <script>
     // Mobile menu toggle
     (function(){
       const toggle=document.getElementById('menuToggle');
       const nav=document.getElementById('siteNav');
+      if(!toggle || !nav) return;
       toggle.addEventListener('click',()=>{
         const open=nav.classList.toggle('open');
-        toggle.setAttribute('aria-expanded',open);
+        toggle.setAttribute('aria-expanded', open);
+        document.body.style.overflow = open ? 'hidden' : '';
       });
     })();
 
@@ -342,66 +259,122 @@
     (function(){
       const btn=document.getElementById("themeToggle");
       const root=document.documentElement;
+      if(!btn) return;
       function setTheme(mode){
         root.setAttribute("data-theme",mode);
         btn.textContent=mode==="dark"?"☀️":"🌙";
         localStorage.setItem("theme",mode);
       }
-      const saved=localStorage.getItem("theme") || 
+      const saved=localStorage.getItem("theme") ||
         (window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
       setTheme(saved);
       btn.addEventListener("click",()=>setTheme(root.getAttribute("data-theme")==="dark"?"light":"dark"));
     })();
 
-    // Card expand/close
+    // Fade-in on scroll for cards
     (function(){
-      const cards=document.querySelectorAll('.card');
-      cards.forEach(card=>{
-        const close=card.querySelector('.card-close');
-        card.addEventListener('click',(e)=>{
-          if(e.target===close) return;
-          if(!card.classList.contains('expanded')){
-            cards.forEach(c=>c.classList.remove('expanded'));
-            card.classList.add('expanded');
-            card.setAttribute('aria-expanded','true');
-            document.body.style.overflow='hidden';
+      const cards = document.querySelectorAll('.cards .card');
+      if(!('IntersectionObserver' in window)){ cards.forEach(c=>c.classList.add('is-visible')); return; }
+      const obs = new IntersectionObserver((entries,o)=>{
+        entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('is-visible'); o.unobserve(e.target); }});
+      }, {threshold:.12});
+      cards.forEach(c=>obs.observe(c));
+    })();
+
+    // Inline expand/collapse logic (stacked accordion-style)
+    (function(){
+      const cards = document.querySelectorAll('[data-card]');
+
+      function setMax(details, to){
+        details.style.maxHeight = to;
+      }
+      function openCard(card){
+        // Close others
+        document.querySelectorAll('[data-card].expanded').forEach(c=>collapseCard(c, false));
+        const btn = card.querySelector('.card-summary');
+        const details = card.querySelector('.card-details');
+        card.classList.add('expanded');
+        btn.setAttribute('aria-expanded','true');
+        details.hidden = false;
+        // measure & animate height
+        setMax(details, details.scrollHeight + 'px');
+        // After transition, allow natural growth
+        details.addEventListener('transitionend', function tidy(e){
+          if(e.propertyName === 'max-height' && card.classList.contains('expanded')){
+            setMax(details, 'none');
+            details.removeEventListener('transitionend', tidy);
           }
         });
-        if(close){
-          close.addEventListener('click',(e)=>{
-            e.stopPropagation();
-            card.classList.remove('expanded');
-            card.setAttribute('aria-expanded','false');
-            document.body.style.overflow='';
+      }
+      function collapseCard(card, keepFocus){
+        const btn = card.querySelector('.card-summary');
+        const details = card.querySelector('.card-details');
+        // If max-height is 'none', set to current pixel height first to enable animation
+        if(getComputedStyle(details).maxHeight === 'none'){
+          setMax(details, details.scrollHeight + 'px');
+        }
+        // Force reflow then animate to 0
+        void details.offsetHeight;
+        setMax(details, '0px');
+        card.classList.remove('expanded');
+        btn.setAttribute('aria-expanded','false');
+        details.addEventListener('transitionend', function hide(e){
+          if(e.propertyName === 'max-height' && !card.classList.contains('expanded')){
+            details.hidden = true;
+            details.removeEventListener('transitionend', hide);
+          }
+        });
+        if(!keepFocus) btn.focus({preventScroll:true});
+      }
+
+      // Toggle on click
+      cards.forEach(card=>{
+        const btn = card.querySelector('.card-summary');
+        const details = card.querySelector('.card-details');
+
+        // Open/close on button click
+        btn.addEventListener('click', ()=>{
+          if(card.classList.contains('expanded')) collapseCard(card);
+          else openCard(card);
+        });
+
+        // Keyboard support (Enter/Space via button is automatic)
+
+        // If images load inside expanded panel, adjust height
+        details.querySelectorAll('img').forEach(img=>{
+          img.addEventListener('load', ()=>{
+            if(card.classList.contains('expanded') && getComputedStyle(details).maxHeight !== 'none'){
+              setMax(details, details.scrollHeight + 'px');
+            }
           });
+        });
+      });
+
+      // Close when clicking outside any expanded card
+      document.addEventListener('click', (e)=>{
+        const open = document.querySelector('[data-card].expanded');
+        if(!open) return;
+        if(!open.contains(e.target) && !e.target.closest('#menuToggle') && !e.target.closest('#siteNav')){
+          collapseCard(open, true);
         }
       });
-      document.addEventListener('keydown',(e)=>{
-        if(e.key==='Escape'){
-          cards.forEach(c=>c.classList.remove('expanded'));
-          document.body.style.overflow='';
+
+      // ESC closes the open card
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape'){
+          const open = document.querySelector('[data-card].expanded');
+          if(open) collapseCard(open, true);
+        }
+      });
+
+      // On resize, if a card is open and max-height is not 'none', re-measure
+      window.addEventListener('resize', ()=>{
+        const open = document.querySelector('[data-card].expanded .card-details');
+        if(open && getComputedStyle(open).maxHeight !== 'none'){
+          setMax(open, open.scrollHeight + 'px');
         }
       });
     })();
   </script>
-  <script>
-  (function() {
-    const cards = document.querySelectorAll('.cards .card');
-    // If IntersectionObserver is unavailable, just show them
-    if (!('IntersectionObserver' in window)) {
-      cards.forEach(c => c.classList.add('is-visible'));
-      return;
-    }
-    const obs = new IntersectionObserver((entries, o) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('is-visible');
-          o.unobserve(e.target); // animate once
-        }
-      });
-    }, { threshold: 0.12 });
-    cards.forEach(c => obs.observe(c));
-  })();
-</script>
 </body>
 </html>
